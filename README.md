@@ -30,5 +30,5 @@ go get github.com/gorilla/websocket
 go get gopkg.in/fatih/set.v0
 go get github.com/go-xorm/xorm
 ```
-#关于作者
-个人微信号jiepool-winlion,请备注来自imooc
+# 联系作者
+如有疑问请联系作者,微信号jiepool-winlion,请备注来自imooc
