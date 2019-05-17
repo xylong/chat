@@ -33,7 +33,5 @@ go get github.com/go-xorm/xorm
 # 联系作者
 如有疑问请联系作者
 ```
-微信号jiepool-winlion,请备注来自imooc
-微信公众号号智能生活优选,每天更新和技术相关的,有机会获得各种项目代码:betaidea 
-qq群golang服务开发,吹牛装B真的大牛，里面都有：367573447
+关注公众号betaidea后即可获得作者微信号以及最新QQ群
 ```
