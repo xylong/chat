@@ -24,6 +24,10 @@ DsName := "root:root@(192.168.0.102:3306)/chat?charset=utf8"
 为你自己的数据库以及密码
 格式如下
 用户名:密码@(ip:port)/数据库名称??charset=utf8
+### 2.4 页面入口地址
+```
+http://127.0.0.1:8080/user/login.shtml
+```
 
 ## 3.依赖包安装
 
