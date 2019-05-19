@@ -2,9 +2,7 @@ package ctrl
 
 import (
 	"net/http"
-	"fmt"
-	"math/rand"
-	"../util"
+			"../util"
 	"../service"
 	"../model"
 )
@@ -39,16 +37,18 @@ var userService service.UserService
 func UserRegister(writer http.ResponseWriter,
 	request *http.Request) {
 
-	request.ParseForm()
+	//request.ParseForm()
 	//
-	mobile := request.PostForm.Get("mobile")
+	//mobile := request.PostForm.Get("mobile")
 	//
-	plainpwd := request.PostForm.Get("passwd")
-	nickname := fmt.Sprintf("user%06d",rand.Int31())
-	avatar :=""
-	sex := model.SEX_UNKNOW
-
-	user,err := userService.Register(mobile, plainpwd,nickname,avatar,sex)
+	//plainpwd := request.PostForm.Get("passwd")
+	//nickname := fmt.Sprintf("user%06d",rand.Int31())
+	//avatar :=""
+	//sex := model.SEX_UNKNOW
+    //有了数据绑定方法,不需要其他的啦
+    var user model.User
+	util.Bind(request,&user)
+	user,err := userService.Register(user.Mobile,user.Passwd,user.Nickname,user.Avatar,user.Sex)
 	if err!=nil{
 		util.RespFail(writer,err.Error())
 	}else{
