@@ -52,12 +52,3 @@ go get github.com/gorilla/websocket
 go get gopkg.in/fatih/set.v0
 go get github.com/go-xorm/xorm
 ```
-# 联系作者
-如有疑问请联系作者
-```
-关注公众号非正式解决方案  `betaidea`  后
-即可获得作者微信号以及最新QQ群
-提供答疑服务
-提供其他附加服务如各种golang资料
-各种系统源码
-```
