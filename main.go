@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/go-xorm/xorm"
 	"html/template"
 	"log"
 	"net/http"
@@ -63,6 +65,21 @@ func RegisterView() {
 		})
 	}
 }
+
+func init() {
+	driver := "mysql"
+	DsName := "root:root@(127.0.0.1:3306)/chat?charset=utf-8"
+	db, err := xorm.NewEngine(driver, DsName)
+	if nil == err {
+		log.Fatal(err.Error())
+	}
+	//是否显示sql
+	db.ShowSQL(true)
+	db.SetMaxOpenConns(2)
+	fmt.Println("ok")
+}
+
+var DbEngin *xorm.Engine
 
 func main() {
 	http.Handle("/asset/", http.FileServer(http.Dir(".")))
