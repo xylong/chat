@@ -1,68 +1,11 @@
 package main
 
 import (
-	"chat/service"
-	"encoding/json"
+	"chat/ctrl"
 	"html/template"
 	"log"
 	"net/http"
 )
-
-type H struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data,omitempty"`
-}
-
-func userLogin(writer http.ResponseWriter, request *http.Request) {
-	mobile := request.PostFormValue("mobile")
-	password := request.PostFormValue("password")
-
-	ok := false
-	if mobile == "13423567890" && password == "123456" {
-		ok = true
-	}
-
-	if ok {
-		data := make(map[string]interface{})
-		data["id"] = 1
-		data["token"] = "test"
-		Return(writer, 0, data, "")
-	} else {
-		Return(writer, -1, nil, "authorize failed")
-	}
-}
-
-func userRegister(writer http.ResponseWriter,request *http.Request)  {
-	mobile:=request.PostFormValue("mobile")
-	password:=request.PostFormValue("password")
-	nickname:="joker"
-	avatar:=""
-	sex:="0"
-
-	user,err:=service.Register(mobile,password,nickname,avatar,sex)
-	if err!=nil {
-		Return(writer,-1,nil,err.Error())
-	} else {
-		Return(writer,0,user,"")
-	}
-}
-
-func Return(w http.ResponseWriter, code int, data interface{}, msg string) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	h := H{
-		Code: code,
-		Msg:  msg,
-		Data: data,
-	}
-
-	ret, err := json.Marshal(h)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	w.Write(ret)
-}
 
 func RegisterView() {
 	tpl, err := template.ParseGlob("view/**/*")
@@ -79,12 +22,10 @@ func RegisterView() {
 	}
 }
 
-
-
 func main() {
 	http.Handle("/asset/", http.FileServer(http.Dir(".")))
-	http.HandleFunc("/user/login", userLogin)
-	http.HandleFunc("/user/register", userRegister)
+	http.HandleFunc("/user/login", ctrl.UserLogin)
+	http.HandleFunc("/user/register", ctrl.UserRegister)
 	RegisterView()
 	http.ListenAndServe(":8080", nil)
 }

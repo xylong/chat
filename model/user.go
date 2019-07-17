@@ -3,9 +3,9 @@ package model
 import "time"
 
 const (
-	SEX_WOMEN  = "W"
-	SEX_MEN    = "M"
-	SEX_UNKNOW = "U"
+	SEX_WOMEN  = 0
+	SEX_MEN    = 1
+	SEX_UNKNOW = -1
 )
 
 type User struct {
@@ -13,7 +13,7 @@ type User struct {
 	Mobile   string    `xorm:"varchar(20)" form:"mobile" json:"mobile"`
 	Passwd   string    `xorm:"varchar(40)" form:"passwd" json:"-"`
 	Avatar   string    `xorm:"varchar(150)" form:"avatar" json:"avatar"`
-	Sex      string    `xorm:"tinyint(1)" form:"sex" json:"sex"`
+	Sex      int       `xorm:"tinyint(1)" form:"sex" json:"sex"`
 	Nickname string    `xorm:"varchar(20)" form:"nickname" json:"nickname"`
 	Salt     string    `xorm:"varchar(10)" form:"salt" json:"-"`
 	Online   int       `xorm:"int(10)" form:"online" json:"online"`
