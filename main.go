@@ -1,9 +1,8 @@
 package main
 
 import (
+	"chat/service"
 	"encoding/json"
-	"fmt"
-	"github.com/go-xorm/xorm"
 	"html/template"
 	"log"
 	"net/http"
@@ -32,7 +31,21 @@ func userLogin(writer http.ResponseWriter, request *http.Request) {
 	} else {
 		Return(writer, -1, nil, "authorize failed")
 	}
+}
 
+func userRegister(writer http.ResponseWriter,request *http.Request)  {
+	mobile:=request.PostFormValue("mobile")
+	password:=request.PostFormValue("password")
+	nickname:="joker"
+	avatar:=""
+	sex:="0"
+
+	user,err:=service.Register(mobile,password,nickname,avatar,sex)
+	if err!=nil {
+		Return(writer,-1,nil,err.Error())
+	} else {
+		Return(writer,0,user,"")
+	}
 }
 
 func Return(w http.ResponseWriter, code int, data interface{}, msg string) {
@@ -66,24 +79,12 @@ func RegisterView() {
 	}
 }
 
-func init() {
-	driver := "mysql"
-	DsName := "root:root@(127.0.0.1:3306)/chat?charset=utf-8"
-	db, err := xorm.NewEngine(driver, DsName)
-	if nil == err {
-		log.Fatal(err.Error())
-	}
-	//是否显示sql
-	db.ShowSQL(true)
-	db.SetMaxOpenConns(2)
-	fmt.Println("ok")
-}
 
-var DbEngin *xorm.Engine
 
 func main() {
 	http.Handle("/asset/", http.FileServer(http.Dir(".")))
 	http.HandleFunc("/user/login", userLogin)
+	http.HandleFunc("/user/register", userRegister)
 	RegisterView()
 	http.ListenAndServe(":8080", nil)
 }
