@@ -7,33 +7,29 @@ import (
 	"net/http"
 )
 
+var userService service.UserService
+
 func UserLogin(writer http.ResponseWriter, request *http.Request) {
 	mobile := request.PostFormValue("mobile")
-	password := request.PostFormValue("password")
+	password := request.PostFormValue("passwd")
 
-	ok := false
-	if mobile == "13423567890" && password == "123456" {
-		ok = true
-	}
+	user, err := userService.Login(mobile, password)
 
-	if ok {
-		data := make(map[string]interface{})
-		data["id"] = 1
-		data["token"] = "test"
-		util.Success(writer, 0, "")
+	if err != nil {
+		util.Fail(writer, err.Error())
 	} else {
-		util.Fail(writer, "authorize failed")
+		util.Success(writer, user, "")
 	}
 }
 
 func UserRegister(writer http.ResponseWriter, request *http.Request) {
 	mobile := request.PostFormValue("mobile")
-	password := request.PostFormValue("password")
+	password := request.PostFormValue("passwd")
 	nickname := "joker"
 	avatar := ""
 	sex := model.SEX_UNKNOW
 
-	user, err := service.Register(mobile, password, nickname, avatar, sex)
+	user, err := userService.Register(mobile, password, nickname, avatar, sex)
 	if err != nil {
 		util.Fail(writer, err.Error())
 	} else {

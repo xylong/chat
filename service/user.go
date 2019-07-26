@@ -9,8 +9,11 @@ import (
 	"time"
 )
 
+type UserService struct {
+}
+
 // 注册
-func Register(mobile, password, nickname, avatar string, sex int) (user model.User, err error) {
+func (s *UserService) Register(mobile, password, nickname, avatar string, sex int) (user model.User, err error) {
 	tmp := model.User{}
 	_, err = Db.Where("mobile=? ", mobile).Get(&tmp)
 	if err != nil {
@@ -30,6 +33,17 @@ func Register(mobile, password, nickname, avatar string, sex int) (user model.Us
 	return user, err
 }
 
-func Login() {
-
+func (s *UserService) Login(mobile, password string) (user model.User, err error) {
+	Db.Where("mobile=?", mobile).Get(&user)
+	if user.Id == 0 {
+		return user, errors.New("user not found")
+	}
+	if !util.ValidatePasswd(password, user.Salt, user.Passwd) {
+		return user, errors.New("密码不正确")
+	}
+	str := fmt.Sprintf("%d", time.Now().Unix())
+	token := util.MD5Encode(str)
+	user.Token = token
+	Db.ID(user.Id).Cols("token").Update(&user)
+	return user, nil
 }
