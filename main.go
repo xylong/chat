@@ -26,6 +26,7 @@ func main() {
 	http.Handle("/asset/", http.FileServer(http.Dir(".")))
 	http.HandleFunc("/user/login", ctrl.UserLogin)
 	http.HandleFunc("/user/register", ctrl.UserRegister)
+	http.HandleFunc("/contact/addfriend", ctrl.AddFriend)
 	RegisterView()
 	http.ListenAndServe(":8080", nil)
 }

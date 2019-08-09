@@ -23,6 +23,6 @@ func init() {
 	//是否显示sql
 	Db.ShowSQL(true)
 	Db.SetMaxOpenConns(2)
-	Db.Sync2(new(model.User))
+	Db.Sync2(new(model.User), new(model.Contact), new(model.Community))
 	fmt.Println("init database")
 }
